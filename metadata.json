@@ -1,0 +1,8 @@
+{
+  "name": "CLUB DE LA CLUTURE AMAZIGHE",
+  "description": "   لنادي الثقافة الأمازيغية ببرشيد ",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

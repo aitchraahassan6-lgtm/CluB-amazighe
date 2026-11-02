@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.size() > 0;
+    }
+
+    // Announcements Collection (Public read, open write for club updates)
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(announcementId);
+    }
+
+    // Financial Transactions Collection (Expenses and Incomes)
+    match /transactions/{transactionId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(transactionId);
+    }
+
+    // Activity Budgets Collection
+    match /activityBudgets/{budgetId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(budgetId);
+    }
+
+    // Members Collection (Online Registration & Treasurer Management)
+    match /members/{memberId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(memberId);
+    }
+
+    // Members Chat Portal Collection
+    match /chatMessages/{messageId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(messageId);
+    }
+
+    // Visitor Reviews & Ratings Collection
+    match /visitorReviews/{reviewId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(reviewId);
+    }
+  }
+}

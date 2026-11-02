@@ -1,0 +1,147 @@
+{
+  "entities": {
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Public announcements and media published by the Bureau",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 300 },
+        "date": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 5000 },
+        "imageUrl": { "type": "string", "maxLength": 2000 },
+        "publisher": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "enum": ["announcement", "event", "statement", "workshop"] },
+        "publishToArchive": { "type": "boolean" },
+        "publishToWebsite": { "type": "boolean" },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["title", "date", "description", "publisher", "category"]
+    },
+    "FinancialTransaction": {
+      "title": "FinancialTransaction",
+      "description": "Financial expenses and income transactions recorded by the treasurer",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["expense", "income"] },
+        "title": { "type": "string", "maxLength": 300 },
+        "amount": { "type": "number" },
+        "category": { "type": "string", "maxLength": 100 },
+        "date": { "type": "string", "maxLength": 100 },
+        "activity": { "type": "string", "maxLength": 200 },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["type", "title", "amount", "category", "date", "activity"]
+    },
+    "ActivityBudget": {
+      "title": "ActivityBudget",
+      "description": "Allocated and spent activity budgets managed by the treasurer",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 300 },
+        "allocatedBudget": { "type": "number" },
+        "spentAmount": { "type": "number" },
+        "date": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["planned", "in_progress", "completed"] },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["title", "allocatedBudget", "spentAmount", "date", "status"]
+    },
+    "Member": {
+      "title": "Member",
+      "description": "Registered club members entered by the treasurer or via online form",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 200 },
+        "cin": { "type": "string", "maxLength": 50 },
+        "filiere": { "type": "string", "maxLength": 200 },
+        "niveau": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "email": { "type": "string", "maxLength": 200 },
+        "feeAmount": { "type": "number" },
+        "feePaid": { "type": "boolean" },
+        "paidDate": { "type": "string", "maxLength": 100 },
+        "registeredDate": { "type": "string", "maxLength": 100 },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "registrationSource": { "type": "string", "enum": ["treasurer", "online_form"] },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["name", "filiere", "niveau", "phone", "feeAmount", "feePaid", "registeredDate", "registrationSource"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Real-time messages sent in the club members chat portal",
+      "type": "object",
+      "properties": {
+        "senderName": { "type": "string", "maxLength": 200 },
+        "senderRole": { "type": "string", "maxLength": 100 },
+        "content": { "type": "string", "maxLength": 2000 },
+        "timestamp": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["senderName", "content", "timestamp"]
+    },
+    "VisitorReview": {
+      "title": "VisitorReview",
+      "description": "Visitor reviews and ratings submitted on the website",
+      "type": "object",
+      "properties": {
+        "visitorName": { "type": "string", "maxLength": 200 },
+        "visitorRole": { "type": "string", "maxLength": 100 },
+        "rating": { "type": "number", "minimum": 1, "maximum": 5 },
+        "comment": { "type": "string", "maxLength": 2000 },
+        "date": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["visitorName", "rating", "comment", "date"]
+    },
+    "SiteSetting": {
+      "title": "SiteSetting",
+      "description": "Configuration settings for the club (logos, names, contact info)",
+      "type": "object",
+      "properties": {
+        "clubNameAr": { "type": "string", "maxLength": 500 },
+        "clubNameFr": { "type": "string", "maxLength": 500 },
+        "whatsappNumber": { "type": "string", "maxLength": 100 },
+        "whatsappMessage": { "type": "string", "maxLength": 1000 },
+        "facebookUrl": { "type": "string", "maxLength": 2000 },
+        "instagramUrl": { "type": "string", "maxLength": 2000 },
+        "clubLogoUrl": { "type": "string", "maxLength": 2000 },
+        "schoolLogoUrl": { "type": "string", "maxLength": 2000 },
+        "stampUrl": { "type": "string", "maxLength": 2000 },
+        "updatedAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["clubNameAr", "clubNameFr"]
+    }
+  },
+  "firestore": {
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Collection of published announcements and news"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/FinancialTransaction" },
+      "description": "Collection of financial income and expense transactions"
+    },
+    "/activityBudgets/{budgetId}": {
+      "schema": { "$ref": "#/entities/ActivityBudget" },
+      "description": "Collection of activity budgets"
+    },
+    "/members/{memberId}": {
+      "schema": { "$ref": "#/entities/Member" },
+      "description": "Collection of registered club members"
+    },
+    "/chatMessages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Collection of members chat portal messages"
+    },
+    "/visitorReviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/VisitorReview" },
+      "description": "Collection of website visitor reviews and ratings"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/SiteSetting" },
+      "description": "Collection for site-wide settings"
+    }
+  }
+}
